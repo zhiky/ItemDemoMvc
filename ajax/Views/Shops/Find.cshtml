@@ -1,0 +1,96 @@
+﻿<h2>商品详情</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td> 商品名称</td>
+            <td><span id="DName"></span></td>
+        </tr>
+        <tr>
+            <td> 商品分类</td>
+            <td><span id="DPtype"></span></td>
+        </tr>
+        <tr>
+            <td>商品品牌</td>
+            <td><span id="DPpinpai"></span></td>
+        </tr>
+        <tr>
+            <td> 商品库存</td>
+            <td><span id="DPkucun"></span></td>
+        </tr>
+        <tr>
+            <td> 商品价格</td>
+            <td><span id="DPprice"></span></td>
+        </tr>
+        <tr>
+            <td> 商品市场价</td>
+            <td><span id="DPmarket"></span></td>
+        </tr>
+        <tr>
+            <td> 商品单位</td>
+            <td><span id="DPdanwei"></span></td>
+        </tr>
+        <tr>
+            <td> 商品货号</td>
+            <td><span id="DPhuohao"></span></td>
+        </tr>
+        <tr>
+            <td> 商品规格</td>
+            <td><span id="DPguige"></span></td>
+        </tr>
+        <tr>
+            <td> 商品单位内重量</td>
+            <td><span id="DPzhong"></span></td>
+        </tr>
+        <tr>
+            <td> 商品运费</td>
+            <td><span id="DPyunfei"></span></td>
+        </tr>
+        <tr>
+            <td> 商品状态</td>
+            <td><span id="DPstate"></span></td>
+        </tr>
+        <tr>
+            <td><input id="Hidden1" type="hidden" value="@Request["did"]" /></td>
+            <td><input id="Button1" type="button" class="btn btn-primary" value="返回" onclick="location.href='/Shops/Show'" /></td>
+        </tr>
+    </thead>
+</table>
+
+@section scripts{
+
+
+    <script>
+        $(function () {
+            Find();
+        })
+        //var id = location.search.substr(location.search.indexOf('=')+1)
+        function Find() {
+            var id = $("#Hidden1").val();
+            $.ajax({
+                url: "https://localhost:44311/api/Shop/Getone?did=" + id,
+                type: "get",
+                dataType: "json",
+                success: function (d) {
+                    $("#BTp").val(d.Ptupian);
+                    $("#DName").val(d.Pname);
+                    $("#DPtype").val(d.Sname);
+                    $("#DPpinpai").val(d.Bname);
+                    $("#DPkucun").val(d.Pkucun);
+                    $("#DPprice").val(d.Pprice);
+                    $("#DPmarket").val(d.Pmarket);
+                    $("#DPdanwei").val(d.Pdanwei);
+                    $("#DPhuohao").val(d.Phuohao);
+                    $("#DPguige").val(d.Pguige);
+                    $("#DPzhong").val(d.Pzhong);
+                    $("#DPyunfei").val(d.Pyunfei);
+                    $("#DPstate").val((d.Pstate==1?"已上架":"已下架"));
+                }
+            })
+
+        }
+    </script>
+
+
+}
+

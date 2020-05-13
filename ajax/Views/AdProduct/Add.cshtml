@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>填写下架原因</h2>
+<table>
+    <tr>
+        <td>下架原因</td>
+        <td><textarea id="TextArea1" rows="2" cols="20"></textarea></td>
+    </tr>
+    <tr>
+        <td><input id="Button1" type="button" value="提交" onclick="Add()" class="btn btn-info" /></td>
+    </tr>
+</table>
+@section scripts{
+    <script>
+        function Add() {
+            var obj = {};
+            obj.Yname = $("#TextArea1").val();
+            $.ajax({
+                url: 'https://localhost:44311/api/Store',
+                type: 'post',
+                dataType: 'json',
+                data: obj,
+                success: function (d) {
+                    alert("提交成功");
+                    location.href = '/AdProduct/AdShow';
+                }
+            })
+        }
+    </script>
+    }
+

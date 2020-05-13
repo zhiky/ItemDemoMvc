@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.DB_tabMotionBanner.min.js"></script>
+
+    <style>
+        html {
+            /*background: url("/assets/images/sub-2.jpg") no-repeat;*/
+            width: 100%;
+            height: 50%;
+            background-size: 100%;
+            text-align: center;
+        }
+
+        table {
+            margin: 0 auto;
+            /*margin-left: 100px;*/
+            border-spacing: 50px;
+        }
+
+        input {
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="DB_tab25">
+        <ul class="DB_bgSet">
+            <li background="/assets/images/sub-2.jpg"></li>
+            <li background="/assets/images/sub-2.jpg"></li>
+            <li background="/assets/images/sub-2.jpg"></li>
+            <!--<li style="background: url(images/stu_banner2.jpg) no-repeat 100% 100%;"></li>-->
+        </ul>
+        <ul class="DB_imgSet">
+            <li onclick="javascript:window.location.href='#';">
+                <img class="DB_1_1" src="/assets/images/page-title-bg.jpg" alt=alt />
+                <!--<img class="DB_1_2" src="/assets/images/sub-2.jpg" alt=alt />
+                <img class="DB_1_3" src="/assets/images/sub-2.jpg" alt=alt />-->
+            </li>
+            <li onclick="javascript:window.location.href='#';">
+                <img class="DB_2_1" src="/assets/images/table-bg.jpg" alt=alt />
+                <!--<img class="DB_2_2" src="/assets/images/sub-2.jpg" alt=alt />
+                <img class="DB_2_3" src="/assets/images/sub-2.jpg" alt=alt />-->
+            </li>
+            <li onclick="javascript:window.location.href='#';">
+                <img class="DB_3_1" src="/assets/images/testimonial-bg.jpg" alt=alt />
+                <!--<img class="DB_3_2" src="/assets/images/sub-2.jpg" alt=alt />
+                <img class="DB_3_3" src="/assets/images/sub-2.jpg" alt=alt />-->
+            </li>
+        </ul>
+        <!--<div class="DB_menuWrap">
+            <ul class="DB_menuSet">
+                <li>
+                    <img src="images/btn_off.png" alt=alt />
+                </li>
+                <li>
+                    <img src="images/btn_off.png" alt=alt />
+                </li>
+                <li>
+                    <img src="images/btn_off.png" alt=alt />
+                </li>
+            </ul>
+            <div class="DB_next">
+                <img src="images/nextArrow.png" alt="NEXT" />
+            </div>
+            <div class="DB_prev">
+                <img src="images/prevArrow.png" alt="PREV" />
+            </div>
+        </div>-->
+    </div>
+    <table class="table-bordered table">
+        <thead>
+            <tr>
+                <td>订单编号</td>
+                <td>商品名称</td>
+                <td>商品图片</td>
+                <td>单价</td>
+                <td>数量</td>
+                <td>订单金额</td>
+                <td>订单日期</td>
+                <td>订单状态</td>
+                <td>操作</td>
+            </tr>
+        </thead>
+        <tbody id="tb"></tbody>
+    </table>
+    <table class=" table-bordered table">
+        <tr>
+            <td>总记录数<span id="TotalCount"></span>条</td>
+            <td>总共<span id="TotalPage"></span>页</td>
+            <td>当前第<span id="CurrentPage"></span>页</td>
+            <td><a href="javascript:;" onclick="Show(1)">首页</a></td>
+            <td><a href="javascript:;" onclick="Show(CurrentPage-1)">上一页</a></td>
+            <td><a href="javascript:;" onclick="Show(CurrentPage+1)">下一页</a></td>
+            <td><a href="javascript:;" onclick="Show(TotalPage)">尾页</a></td>
+
+        </tr>
+    </table>
+
+
+
+    <script type="text/javascript">
+        $('.DB_tab25').DB_tabMotionBanner({
+            key: 'b28551',
+            autoRollingTime: 6000,
+            bgSpeed: 500,
+            motion: {
+                DB_1_1: { left: -50, opacity: 0, speed: 1000, delay: 500 },
+                DB_1_2: { left: -50, opacity: 0, speed: 1000, delay: 1000 },
+                DB_1_3: { left: 100, opacity: 0, speed: 1000, delay: 1500 },
+                DB_2_1: { top: 50, opacity: 0, speed: 1000, delay: 500 },
+                DB_2_2: { top: 50, opacity: 0, speed: 1000, delay: 1000 },
+                DB_2_3: { top: 100, opacity: 0, speed: 1000, delay: 1500 },
+                DB_3_1: { left: -50, opacity: 0, speed: 1000, delay: 500 },
+                DB_3_2: { top: 50, opacity: 0, speed: 1000, delay: 1000 },
+                DB_3_3: { top: 0, opacity: 0, speed: 1000, delay: 1500 },
+                end: null
+            }
+        })
+
+        //页面第一次加载
+        $(function () {
+            Show();
+        })
+        //取值用户ID
+        function getCookie(userid) {
+            if (document.cookie.length > 0) {
+                c_start = document.cookie.indexOf(userid + "=")
+                if (c_start != -1) {
+                    c_start = c_start + userid.length + 1
+                    c_end = document.cookie.indexOf(";", c_start)
+                    if (c_end == -1) c_end = document.cookie.length
+                    return unescape(document.cookie.substring(c_start, c_end))
+                }
+            }
+            return ""
+        }
+        function Show(page) {
+            $.ajax({
+                url: "https://localhost:44311/api/Order?Uid=" + getCookie("userid"),
+                type: "get",
+                dataType: "json",
+                data: { CurrentPage: page },
+                success: function (d) {
+                    $("#TotalCount").text(d.TotalCount)
+                    $("#TotalPage").text(d.TotalPage)
+                    $("#CurrentPage").text(d.CurrentPage)
+                    //最大页
+                    TotalPage = d.TotalPage;
+                    //当前页
+                    CurrentPage = d.CurrentPage;
+                    //清空表格
+                    $("#tb").empty();
+                    //循环遍历
+                    $(d.orderModels).each(function () {
+                        //拼接tr一行
+                        var line = '<tr>'
+                            + '<td>' + this.OrderNo + '</td > '
+                            + '<td>' + this.Pname + '</td>'
+                            + '<td>' + '<img src="' + this.Ptupian + '" alt="" Width=100,Height=100 />' + '</td > '
+                            + '<td>' + this.Pmarket + '</td>'
+                            + '<td>' + this.Count + '</td>'
+                            + '<td>' + this.heji + '</td>'
+                            + '<td>' + this.OrderDate + '</td>'
+                            + '<td>' + this.OrderStatus + '</td>'
+                            + '<td id="kong" >' + '<a href=javascript:; onclick=Tuihuo(' + this.OId + ')>退货</a>' + '' + '<a href=/Pingjia/Find/' + this.PId + '>评价</a>' + '</td>'
+                            + '</tr>'
+                        //将数据放入表格
+                        $("#tb").append(line);
+                    });
+                }
+            });
+        }
+        function Tuihuo(OId) {
+            $.ajax({
+                url: 'https://localhost:44311/api/Order/GetTui?id=' + OId,
+                type: 'get',
+                dataType: 'json',
+                success: function (d) {
+                    if (d.Code == 1) {
+                        //$("#kong").html() = null;
+                        alert("退货成功");
+                        location.href = 'indexorder.html';
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+</html>
